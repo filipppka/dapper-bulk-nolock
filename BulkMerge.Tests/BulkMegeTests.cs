@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Xunit;
 namespace BulkMerge.Tests
 {
-    public class BulkMergeItem
+    public class BulkMergeTest
     {
         public int Id { get; set; }
         public string Name { get; set; }
@@ -20,14 +20,14 @@ namespace BulkMerge.Tests
         {
             try
             {
-                var list = new List<BulkMergeItem>();
+                var list = new List<BulkMergeTest>();
                 for (var i = 0; i < 100000; i++)
                 {
-                    list.Add(new BulkMergeItem { Amount = i, Name = $"Name{i}" });
+                    list.Add(new BulkMergeTest { Amount = i, Name = $"Name{i}" });
                 }
 
                 await using var connection = new SqlConnection("Server=DESKTOP-22FGMF9\\SQLEXPRESS;Database=test;Trusted_Connection=True;");
-                await connection.BulkMergeAsync("BulkMergeTest", list);
+                await connection.BulkMergeAsync(list);
             }
             catch (Exception e)
             {

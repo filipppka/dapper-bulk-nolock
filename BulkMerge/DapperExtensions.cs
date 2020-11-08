@@ -12,8 +12,10 @@ namespace BulkMerge
 {
     public static class DapperExtensions
     {
-        public static async Task<IEnumerable<T>> BulkMergeAsync<T>(this IDbConnection connection, string detinationTable, IEnumerable<T> list)
+        public static async Task<IEnumerable<T>> BulkMergeAsync<T>(this IDbConnection connection, IEnumerable<T> list, string detinationTable = null)
         {
+            detinationTable = detinationTable is null ? typeof(T).Name : detinationTable;
+
             var tempTableName = $"{detinationTable}_{Guid.NewGuid().ToString("N")}";
 
             var identityInfo = await connection.QueryFirstOrDefaultAsync<(string ColumnName, string Type)>($"SELECT COLUMN_NAME, DATA_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE COLUMNPROPERTY(OBJECT_ID(TABLE_SCHEMA + '.' + TABLE_NAME), COLUMN_NAME, 'IsIdentity') = 1 AND TABLE_NAME = '{detinationTable}' AND TABLE_SCHEMA = 'dbo'");
