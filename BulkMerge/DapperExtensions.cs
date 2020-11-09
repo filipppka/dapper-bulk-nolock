@@ -38,11 +38,11 @@ namespace BulkMerge
 
             var sqlConnection = connection as SqlConnection;
             await sqlConnection.OpenAsync();
-            var colmunNames = typeAccessor.GetMembers().Select(x => x.Name).ToArray();
+            var columnNames = typeAccessor.GetMembers().Select(x => x.Name).ToArray();
             using (var bcp = new SqlBulkCopy(sqlConnection))
             using (var reader = ObjectReader.Create(list))
             {
-                foreach (var columName in colmunNames)
+                foreach (var columName in columnNames)
                 {
                     bcp.ColumnMappings.Add(new SqlBulkCopyColumnMapping(columName, columName));
                 }
