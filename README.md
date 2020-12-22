@@ -1,1 +1,1 @@
-# dapper-bulk-nolock
+Dapper bulk insert / bulk update
